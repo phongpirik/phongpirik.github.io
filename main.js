@@ -2,6 +2,24 @@ const socket = io('https://pirikstream.herokuapp.com/');
 
 $('#div-chat').hide();
 
+let customConfig;
+
+$.ajax({
+  url: "https://global.xirsys.net/_turn",
+  data: {
+    ident: "phongpirik",
+    secret: "3a7c96e2-aaaa-11e7-869b-add0cf993add",
+    channel: "phongpirik.github.io",
+    secure: 1
+  },
+  success: function (data, status) {
+    // data.v is where the iceServers object lives
+    customConfig = data.v;
+    console.log(customConfig);
+  },
+  async: false
+});
+
 socket.on('DANH_SACH_ONLINE',arrUserInfo => {
 	$('#div-chat').show();
 	$('#div-dang-ki').hide();
@@ -38,7 +56,7 @@ function playStream(idVideoTag, stream){
 // openStream()
 // .then(stream => playStream('localStream',stream));
 // const peer = new Peer({key: '868kz8csla24kj4i'});
-const peer = new Peer({key: 'peerjs', host:'mypeerphong.herokuapp.com',secure:true, port:443});
+const peer = new Peer({key: 'peerjs', host:'mypeerphong.herokuapp.com',secure:true, port:443, config:customConfig});
 
 peer.on('open',id=>{
 	$('#my-peer').append(id);
