@@ -5,18 +5,17 @@ $('#div-chat').hide();
 let customConfig;
 
 $.ajax({
-  url: "https://global.xirsys.net/_turn",
-  data: {
-    ident: "phongpirik",
-    secret: "3a7c96e2-aaaa-11e7-869b-add0cf993add",
-    channel: "phongpirik.github.io",
-    secure: 1
-  },
-  success: function (data, status) {
-    // data.v is where the iceServers object lives
-    customConfig = data.v;
-    console.log(customConfig);
-  },
+  url: "https://global.xirsys.net/_turn/phongpirik.github.io/",
+     type: "PUT",
+     async: false,
+     headers: {
+       "Authorization": "Basic " + btoa("phongpirik:3a7c96e2-aaaa-11e7-869b-add0cf993add")
+     },
+     success: function (res){
+     	customConfig = res.v.iceServers;
+       console.log("ICE List: "+res.v.iceServers);
+     },
+
   async: false
 });
 
